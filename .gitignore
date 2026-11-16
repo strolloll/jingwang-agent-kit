@@ -11,3 +11,10 @@ key.json
 
 # 跑测试时生成的临时文件
 *.tmp
+
+# 抓下来的语料：那是运行产物，不该进仓库（谁跑谁自己有一份）
+jingwang-corpus/corpus/
+*.jsonl
+
+# 桌宠的记忆主库在 ~/.jingwang-pet/，那是人的本地数据
+jingwang-pet/memory/*
