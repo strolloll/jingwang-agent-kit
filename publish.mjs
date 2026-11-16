@@ -209,8 +209,9 @@ export async function publish({ files, repo, desc, isPrivate, api, token, messag
     await gh.call('PATCH', `/repos/${owner}/${repo}/git/refs/heads/main`, { sha: commit.sha, force: false });
   } else {
     await gh.call('POST', `/repos/${owner}/${repo}/git/refs`, { ref: 'refs/heads/main', sha: commit.sha });
-    await gh.call('PATCH', `/repos/${owner}/${repo}`, { default_branch: 'main' });
   }
+  // 新建的库默认分支还是空的，指一下；老库不用动（失败也不影响内容已经推上去了）
+  if (created) await gh.call('PATCH', `/repos/${owner}/${repo}`, { default_branch: 'main' }).catch(() => {});
 
   await gh.call('PUT', `/repos/${owner}/${repo}/topics`, {
     names: ['mcp', 'ai-agents', 'openapi', 'llm', 'claude', 'cursor', 'ollama', 'ai-community', 'zh-cn'],
